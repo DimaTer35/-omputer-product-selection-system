@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список продукции</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .container {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .sidebar {
+            width: 300px;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .card {
+            height: 400px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+            width: 300px;
+            display: inline-block;
+            vertical-align: top;
+            cursor: pointer;
+            transition: box-shadow 0.3s ease;
+            background-color: #BFDDCE;
+            box-sizing: border-box;
+        }
+
+        .card:hover {
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 10px;
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .card h3, .card p {
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .filter-section {
+            margin-bottom: 20px;
+        }
+
+        .filter-section label {
+            display: block;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        {% include 'base.html' %}
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <h2>Фильтры и сортировка</h2>
+            <form method="get" action="">
+                <div class="filter-section">
+                    <label for="search">Поиск:</label>
+                    <input type="text" name="search" id="search" value="{{ search_query }}">
+                </div>
+
+                <div class="filter-section">
+                    <label for="category">Категория:</label>
+                    <select name="category" id="category">
+                        <option value="">Все</option>
+                        {% for category in categories %}
+                        <option value="{{ category.id }}" {% if category.id == selected_category %}selected{% endif %}>{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-section">
+                    <label for="sort">Сортировать по:</label>
+                    <select name="sort" id="sort">
+                        <option value="price_asc" {% if sort == 'price_asc' %}selected{% endif %}>Цена (по возрастанию)</option>
+                        <option value="price_desc" {% if sort == 'price_desc' %}selected{% endif %}>Цена (по убыванию)</option>
+                    </select>
+                </div>
+
+                <div class="filter-section">
+                    <label>Тактовая частота:</label>
+                    <input type="checkbox" name="cpu_freq" value="2.5" {% if '2.5' in cpu_freq %}checked{% endif %}> 2.5 ГГц
+                    <input type="checkbox" name="cpu_freq" value="3.4" {% if '3.4' in cpu_freq %}checked{% endif %}> 3.4 ГГц
+                </div>
+
+                <div class="filter-section">
+                    <label>Оперативная память:</label>
+                    <input type="checkbox" name="ram_size" value="32" {% if '32' in ram_size %}checked{% endif %}> 32 ГБ
+                    <input type="checkbox" name="ram_size" value="16" {% if '16' in ram_size %}checked{% endif %}> 16 ГБ
+                </div>
+
+                <div class="filter-section">
+                    <label for="min_price">Мин. цена:</label>
+                    <input type="number" name="min_price" id="min_price" value="{{ min_price }}">
+
+                    <label for="max_price">Макс. цена:</label>
+                    <input type="number" name="max_price" id="max_price" value="{{ max_price }}">
+                </div>
+
+                <button type="submit">Применить</button>
+            </form>
+        </div>
+
+        <div class="content">
+            <h1>Список продукции</h1>
+            {% for product in products %}
+            <div class="card" onclick="window.location='{% url 'product_detail' product.id %}'">
+                <div class="card-content">
+                    <img src="{{ product.photo.url }}" alt="{{ product.name }}">
+                    <h3>{{ product.manufacturer.name }} {{ product.name }}</h3>
+                    <p><strong>Цена:</strong> {{ product.price }} руб.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

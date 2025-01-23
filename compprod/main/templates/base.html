@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}О нас{% endblock %}</title>
+    <style>
+        body {
+            font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+        }
+        nav {
+            background-color: #DBAE8D;
+            overflow: hidden;
+        }
+        nav a, nav form, nav span {
+            display: inline-block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        nav a:hover, nav form:hover, nav span:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .nav-right {
+            float: right;
+        }
+        .nav-right button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 14px 16px;
+            font-size: 16px;
+        }
+        .nav-right button:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links {
+            display: flex;
+        }
+        .nav-auth {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<nav class="nav-container">
+  <div class="nav-links">
+    <a href="{% url 'index' %}">Главная</a>
+    <a href="{% url 'product_list' %}">Список продукции</a>
+    <a href="{% url 'expert_system' %}">Экспертная система</a>
+    {% if user.is_authenticated %}
+      <a href="{% url 'favorite_list' %}">Избранное</a>
+    {% endif %}
+  </div>
+  <div class="nav-auth nav-right">
+    {% if user.is_authenticated %}
+      <span> {{ user.get_username }}</span>
+      <a href="{% url 'profile' %}">Профиль</a>
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Выйти из аккаунта</button>
+      </form>
+    {% else %}
+      <a href="{% url 'login' %}">Вход/Регистрация</a>
+    {% endif %}
+  </div>
+</nav>
+{% block content %}{% endblock %}
+</body>
+</html>

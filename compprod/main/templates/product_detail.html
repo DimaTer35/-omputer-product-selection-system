@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.manufacturer.name }} - {{ product.name }}</title>
+    <style>
+        body {
+            font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+        }
+
+        .favorite-button {
+            padding: 10px 20px;
+            background-color: #BFDDCE;
+            color: #000;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .favorite-button:hover {
+            background-color: #A6C7B6;
+        }
+
+        .product-detail {
+            margin: 0 auto;
+            width: 80%;
+            text-align: center;
+            position: relative;
+            padding: 20px 40px;
+        }
+
+        .product-detail::before, .product-detail::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 30px;
+            background-color: #ccc;
+        }
+
+        .product-detail::before {
+            left: 150px;
+        }
+
+        .product-detail::after {
+            right: 150px;
+        }
+
+        .product-detail h1 {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        .product-detail p {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .product-detail .description {
+            font-size: 18px;
+            margin: 20px 0;
+            text-align: left;
+            display: inline-block;
+            hyphens: auto;
+            max-width: 700px;
+        }
+
+        .product-detail h2 {
+            font-size: 22px;
+            margin-top: 20px;
+        }
+
+        .product-detail ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: left;
+            display: inline-block;
+            font-size: 18px;
+        }
+
+        .product-detail img {
+            width: 300px;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    {% include 'base.html' %}
+    <div class="product-detail">
+        <h1>{{ product.manufacturer.name }} {{ product.name }}</h1>
+        <img src="{{ product.photo.url }}" alt="{{ product.name }}">
+        <p><strong>Цена:</strong> {{ product.price }} руб.</p>
+        <div class="description">
+            {{ product.description }}
+        </div>
+        <h2>Характеристики</h2>
+        <ul>
+            {% for attribute in product.productattributevalue_set.all %}
+            <li>{{ attribute.attribute.name }}: {{ attribute.value }} {% if attribute.attribute.unit_of_measurement %}{{ attribute.attribute.unit_of_measurement }}{% endif %}</li>
+            {% endfor %}
+        </ul>
+        {% if user.is_authenticated %}
+        <a href="{% url 'add_to_favorites' product.id %}" class="favorite-button">Добавить в избранное</a>
+        {% endif %}
+    </div>
+</body>
+</html>

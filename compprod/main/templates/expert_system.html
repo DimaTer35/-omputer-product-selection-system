@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Экспертная система</title>
+</head>
+<body>
+    {% include 'base.html' %}
+    <h1>Экспертная система</h1>
+    <form method="post">
+        {% csrf_token %}
+        {% for question in questions %}
+        <p><strong>Вопрос {{ forloop.counter }}:</strong> {{ question.text }}</p>
+        {% if question.id == 2 %}
+        <input type="number" name="question_{{ question.id }}" step="0.01" placeholder="Введите сумму">
+        {% else %}
+        {% for option in question.options.all %}
+        <input type="radio" name="question_{{ question.id }}" value="{{ option.text }}"> {{ option.text }}<br>
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+        <button type="submit">Отправить</button>
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Избранные товары</title>
+    <style>
+        .favorites-list {
+            list-style-type: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        .favorites-list li {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f9f9f9;
+        }
+
+        .remove-button {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .remove-button:hover {
+            background-color: #ff1a1a;
+        }
+    </style>
+</head>
+<body>
+    {% include 'base.html' %}
+    <div style="margin: 0 auto; width: 80%;">
+        <h1>Избранные товары</h1>
+        <ul class="favorites-list">
+            {% for favorite in favorites %}
+            <li>
+                {{ favorite.product.manufacturer.name }} {{ favorite.product.name }}
+                <form method="post" action="{% url 'remove_favorite' favorite.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="remove-button">Удалить</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'product_list' %}">Вернуться к списку товаров</a>
+    </div>
+</body>
+</html>

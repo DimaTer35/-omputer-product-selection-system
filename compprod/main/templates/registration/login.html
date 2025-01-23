@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .login-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 80vh;
+        font-size: 18px;
+    }
+
+    .login-box {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 30px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .login-box table {
+        margin: 20px 0;
+        width: 100%;
+    }
+
+    .login-box input[type="submit"] {
+        font-size: 18px;
+        padding: 10px 20px;
+        margin-top: 10px;
+        width: 100%;
+        background-color: #BFDDCE;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .login-box p {
+        font-size: 18px;
+    }
+
+    .login-box a {
+        font-size: 18px;
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .login-box a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="login-container">
+    <div class="login-box">
+        {% if form.errors %}
+            <p>Ваше имя пользователя и пароль не совпадают. Пожалуйста, попробуйте еще раз.</p>
+        {% endif %}
+
+        {% if next %}
+            {% if user.is_authenticated %}
+                <p>Ваш аккаунт не имеет доступа к этой странице. Чтобы продолжить,
+                    пожалуйста, войдите с аккаунтом, который имеет доступ.</p>
+            {% else %}
+                <p>Пожалуйста, войдите, чтобы увидеть эту страницу.</p>
+            {% endif %}
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>{{ form.username.label_tag }}</td>
+                    <td>{{ form.username }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.password.label_tag }}</td>
+                    <td>{{ form.password }}</td>
+                </tr>
+            </table>
+            <input type="submit" value="Войти"/>
+            <input type="hidden" name="next" value="{{ next }}"/>
+        </form>
+
+        <p><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
+        <p>Еще нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a></p>
+    </div>
+</div>
+{% endblock %}

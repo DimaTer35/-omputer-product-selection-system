@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Профиль пользователя{% endblock %}
+
+{% block content %}
+<style>
+    .profile-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 80vh;
+        font-size: 18px;
+    }
+
+    .profile-box {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 30px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 50%;
+        max-width: 600px;
+    }
+
+    .profile-box h1, .profile-box h2 {
+        margin-top: 0;
+    }
+
+    .profile-box form {
+        margin-top: 20px;
+    }
+
+    .profile-box label {
+        display: block;
+        text-align: left;
+        margin-bottom: 5px;
+    }
+
+    .profile-box input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 18px;
+    }
+
+    .profile-box button {
+        font-size: 18px;
+        padding: 10px 20px;
+        width: 100%;
+        background-color: #BFDDCE;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .profile-box button:hover {
+        background-color: #a6c6b2;
+    }
+
+    .profile-box p {
+        font-size: 18px;
+    }
+</style>
+
+<div class="profile-container">
+    <div class="profile-box">
+        <h1>Профиль пользователя</h1>
+        <div>
+            <p><strong>Логин:</strong> {{ user.username }}</p>
+            <p><strong>Электронная почта:</strong> {{ user.email }}</p>
+            <p><strong>Дата регистрации:</strong> {{ user.date_joined }}</p>
+            <p><strong>Последний вход:</strong> {{ user.last_login }}</p>
+        </div>
+
+        <h2>Изменить информацию</h2>
+        <form method="post" action="{% url 'profile_update' %}">
+            {% csrf_token %}
+            <label for="username">Логин:</label>
+            <input type="text" id="username" name="username" value="{{ user.username }}"><br>
+
+            <label for="email">Электронная почта:</label>
+            <input type="email" id="email" name="email" value="{{ user.email }}"><br>
+
+            <button type="submit">Сохранить изменения</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

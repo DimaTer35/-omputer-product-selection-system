@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Товар добавлен в избранное</title>
+</head>
+<body>
+    {% include 'base.html' %}
+    <div style="text-align: center;">
+        <h1>Товар успешно добавлен в избранное</h1>
+        <a href="{% url 'product_list' %}">Вернуться к списку товаров</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная</title>
+    <style>
+        .button {
+            padding: 15px 30px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="center">
+        {% include 'base.html' %}
+        <h1>Система выбора компьютерной продукции</h1>
+        <p>Разработал: Терентьев Дмитрий Алексеевич ИУ5-85Б</p>
+        <p>Эта система позволяет изучить или подобрать компьютерную продукцию</p>
+    </div>
+</body>
+</html>

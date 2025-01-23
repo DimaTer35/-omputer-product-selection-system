@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Результаты экспертной системы</title>
+</head>
+<body>
+    {% include 'base.html' %}
+    <h1>Рекомендованный товар</h1>
+    <ul>
+        {% for product in products %}
+            <li>{{ product.manufacturer.name }} - {{ product.name }}: {{ product.price }} руб.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'expert_system' %}">Пройти заново</a>
+</body>
+</html>
